@@ -24,7 +24,7 @@ $pic_temp3=$_FILES["pics3"]["tmp_name"];
 //echo "for profile pic";
 
 
-if($pic_name=="")//dont upload since no new profile image is found
+if($pic_name=="" || $pic_name2=="" || $pic_name3=="")//dont upload since no new profile image is found
 {
 
 }

@@ -1,0 +1,112 @@
+/**
+ * Created by UTOPIA SOFTWARE on 24/03/2017.
+ */
+
+$(document).ready(function(){
+
+// initialise bootstrap form validator
+$('#register-contractors-consultants-form').validator({
+custom: {
+filesize: function($element) {
+
+// check that this is file input element
+if($element.is('#company-owner-photo')){
+// check the file size
+if($element.get(0).files[0] && ($element.get(0).files[0].size > (512 * 1024))){ // file must not be greater than 512kb
+// set the written content for the preview box
+$('#company-owner-photo-preview').html("photo must not be larger than 512KB. File type must be .jpg");
+// clear background image
+$('#company-owner-photo-preview').css("background-image", "none");
+return "image file too large";
+}
+
+if($element.get(0).files[0] && ($element.get(0).files[0].size <= (512 * 1024))){ // since file is <= 512kb
+photoPreview($element.get(0).files[0]); // preview the image
+}
+}
+
+}
+}
+});
+
+// listen for form submission
+$('#register-contractors-consultants-form').on("submit", function(submitEvent){
+
+// form was successfully validated
+if(! submitEvent.isDefaultPrevented()) {
+// prevent the form from submitting automatically
+submitEvent.preventDefault();
+// display the app-loader
+$('.app-loader').css("display", "block");
+
+// submit form data
+var registrationRequest = $.ajax({
+url: "register-contractors-consultants.html", // Url to which the request is send
+type: "POST",             // Type of request to be send, called as method
+data: new FormData($('#register-contractors-consultants-form').get(0)), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+contentType: false,       // The content type used when sending data to the server.
+dataType:"text",
+timeout: 300000,
+cache: false,             // To unable request pages to be cached
+processData: false
+});
+
+registrationRequest.done(function(){
+// reset the form
+$('#register-contractors-consultants-form').get(0).reset();
+// set the written content for the preview box
+$('#company-owner-photo-preview').html("photo must not be larger than 512KB. File type must be .jpg");
+// clear background image
+$('#company-owner-photo-preview').css("background-image", "none");
+// hide the app-loader
+$('.app-loader').css("display", "none");
+// inform the user that form was submitted
+swal({
+title: "Form Submitted",
+text: "Your registration form was successfully submitted",
+type: "success",
+showCancelButton: false,
+confirmButtonText: "OK",
+timer: 6000,
+closeOnConfirm: true
+});
+});
+
+registrationRequest.fail(function(){
+// hide the app-loader
+$('.app-loader').css("display", "none");
+// inform the user that form was NOT submitted
+swal({
+title: "Submission Failed",
+text: "Your registration form submission failed. Please retry submission",
+type: "error",
+showCancelButton: false,
+confirmButtonText: "OK",
+confirmButtonColor: "#FF0000",
+closeOnConfirm: true
+});
+});
+}
+});
+});
+
+/**
+ * function is used to preview the image
+ * @param fileObj
+ */
+function photoPreview(fileObj){
+// create a file read object
+var reader = new FileReader();
+
+// listen for when the image file is loaded
+reader.onload = function (event) {
+
+// create written content in the preview box
+$('#company-owner-photo-preview').html("");
+$('#company-owner-photo-preview').css("background-image", "url(" + event.target.result + ")"); // set the back image to the image url
+
+};
+
+// read the data from the image file
+reader.readAsDataURL(fileObj);
+}

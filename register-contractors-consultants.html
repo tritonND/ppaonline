@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register Contractors & Consultants</title>
+    <!-- script to prevent page from caching -->
+    <script>
+        var queryParam = document.location.search;
+        queryParam = !queryParam ? "" : queryParam;
+        if(queryParam.length == 0){
+            document.location.href = document.location.href + "?timestamp=" + new Date().getTime();
+        }
+        else if(queryParam.indexOf("timestamp=") < 0){
+            document.location.href = document.location.href + "&timestamp=" + new Date().getTime();
+        }
+    </script>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="css/sweetalert.css" rel="stylesheet">
+    <!-- hyperform style -->
+    <link href="css/hyperform.css" rel="stylesheet">
+    <!-- registration form style -->
+    <link href="css/register-contractors-style.css" rel="stylesheet">
+    <!-- polyfill ECMA 2015 -->
+    <script src="js/polyfill.min.js"></script>
+    <!-- native form validation polyfill -->
+    <script src="js/hyperform.min.js"></script>
+    <!-- random generator -->
+    <script src="js/random.min.js"></script>
+    <!-- payment script -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
+</head>
+<body>
+<!-- basic information container begins -->
+<div id="basic-information-container" class="container" style="display: block; margin-top: 3em;">
+
+    <div class="row">
+    <div class="well col-xs-12">
+        <div class="row" style="margin-bottom: 1em;">
+            <div class="col-xs-4" style="text-align: center;"></div>
+            <div class="col-xs-4" style="text-align: center;">
+                <img src="images/ppa-icon.png" style="width: 9em; height: 9em; border-radius: 50%; margin-top: -5em">
+            </div>
+            <div class="col-xs-4" style="text-align: center;"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: #4cae4c; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em;
+            font-weight: bolder; cursor: pointer">1</span>
+            </div>
+
+            <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder">2</span>
+            </div>
+
+            <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder">3</span>
+            </div>
+
+        </div>
+
+        <div class="row">
+        <div class="col-xs-8">
+        <h4>Basic Information</h4>
+        <span>all form fields information are required </span>
+        </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-lg-12 well">
+        <div class="row" style="position: relative;">
+            <div class="col-xs-12 app-loader" style="display: none; position: absolute; top: 0; bottom: 0; width: 100%; height: 100%;
+            text-align: center; z-index: 3; padding-top: 25%;">
+                <i class="fa fa-cog fa-spin" style="font-size: 10em; color: lightgreen"></i>
+            </div>
+            <form id="register-contractors-consultants-form" autocomplete="off">
+                <div class="col-sm-12">
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="contractor-consultant-type" >Option</label>
+                                <select class="form-control" id="contractor-consultant-type" required
+                                data-required-error="please select an option">
+                                    <option value="" disabled selected hidden>Select One</option>
+                                    <option value="consultant">Consultant</option>
+                                    <option value="contractor">Contractor</option>
+                                </select>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="contractor-consultant-company-name" >Company Name</label>
+                            <input id="contractor-consultant-company-name" type="text" placeholder="Company Name..."
+                                   class="form-control" required data-minlength="3"
+                                   data-required-error="company name is required"
+                            data-minlength-error="provide a correct company name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="cac-reg-number" >Company's CAC Registration Number</label>
+                            <input id="cac-reg-number" type="text" placeholder="CAC Registration Number" class="form-control"
+                                   required data-required-error="CAC registration number is required">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="contractor-consultant-specialization" >Company's Specialization</label>
+                            <input id="contractor-consultant-specialization" type="text" placeholder="Specialization" class="form-control"
+                                   required data-required-error="Company's specialization is required">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="company-owner-first-name" >First Name (for Company's Owner / Custodian)</label>
+                            <input id="company-owner-first-name" type="text" placeholder="First Name" class="form-control"
+                                   required data-minlength="2" data-required-error="first name is required"
+                            data-minlength-error="provide a correct first name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="company-owner-last-name" >Last Name (for Company's Owner / Custodian)</label>
+                            <input id="company-owner-last-name" type="text" placeholder="Last Name" class="form-control"
+                                   required data-minlength="2" data-required-error="last name is required"
+                                   data-minlength-error="provide a correct last name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="company-owner-photo" >Photo of Company's Owner / Custodian</label>
+                            <input id="company-owner-photo" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                   required data-filesize="check" data-required-error="photo is required">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label>Photo Preview</label>
+                            <div id="company-owner-photo-preview" style="width: 200px; height: 200px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                photo must not be larger than 512KB. File type must be .jpg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <label for="company-address" >Company Address</label>
+                            <textarea id="company-address" placeholder="Company Address" rows="3" class="form-control"
+                                      required data-minlength="5" data-required-error="company address is required"
+                                      data-minlength-error="provide a correct company address"></textarea>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="company-email" >Company Email</label>
+                            <input id="company-email" type="email" placeholder="Email Address" class="form-control"
+                                   required data-required-error="email address is required"
+                            data-type-error="incorrect email format">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="company-phone" >Company Phone Number</label>
+                            <input id="company-phone" type="tel" placeholder="Phone Number" class="form-control"
+                                   required pattern="(0[1-9]{1}[0-9]{9}|\+234[1-9]{1}[0-9]{9})"
+                                   data-required-error="phone number is required"
+                                   data-pattern-error="incorrect phone number format">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 form-group" style="padding-top: 0.5em; text-align: center">
+                            <button type="submit" class="btn btn-info">Next</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- basic information container ends -->
+
+<!-- upload documents container begins -->
+<div id="upload-documents-container" class="container" style="display: none; margin-top: 3em;">
+
+    <div class="row">
+        <div class="well col-xs-12">
+            <div class="row" style="margin-bottom: 1em;">
+                <div class="col-xs-4" style="text-align: center;"></div>
+                <div class="col-xs-4" style="text-align: center;">
+                    <img src="images/ppa-icon.png" style="width: 9em; height: 9em; border-radius: 50%; margin-top: -5em">
+                </div>
+                <div class="col-xs-4" style="text-align: center;"></div>
+            </div>
+            <div class="row">
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder; cursor: pointer"
+            onclick="moveScreenBackward(document.getElementById('upload-documents-container'),
+            document.getElementById('basic-information-container'))">1</span>
+                </div>
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: #4cae4c; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em;
+            font-weight: bolder; cursor: pointer">2</span>
+                </div>
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder">3</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-8" style="text-align: center">
+                    <h4>Upload Company Documents</h4>
+                    <span>all form fields marked with asterisk (<span style="color: red">*</span>) information are required </span>
+                </div>
+                <div class="col-xs-2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 well">
+            <div class="row" style="position: relative;">
+                <div class="col-xs-12 app-loader" style="display: none; position: absolute; top: 0; bottom: 0; width: 100%; height: 100%;
+            text-align: center; z-index: 3; padding-top: 25%;">
+                    <i class="fa fa-cog fa-spin" style="font-size: 10em; color: lightgreen"></i>
+                </div>
+                <form id="register-contractors-consultants-upload-documents-form" autocomplete="off">
+                    <div class="col-sm-12">
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-cac-cert"><span style="color: red">*</span> Scanned CAC Certificate</label>
+                                <input id="register-contractors-consultants-upload-documents-cac-cert" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-cac-cert-preview"
+                                       data-required-error="scanned CAC certificate is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>CAC Certificate Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-cac-cert-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-cac-directors-doc"><span style="color: red">*</span> Scanned CAC Form Co7
+                                    (Particulars of Directors) </label>
+                                <input id="register-contractors-consultants-upload-documents-cac-directors-doc" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-cac-directors-doc-preview"
+                                       data-required-error="scanned particulars of directors is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>CAC Particulars of Directors Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-cac-directors-doc-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-tax-payment"><span style="color: red">*</span> Scanned Evidence of Tax Payment(
+                                for last 3 years)</label>
+                                <input id="register-contractors-consultants-upload-documents-tax-payment" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-tax-payment-preview-1"
+                                       data-required-error="scanned evidence of tax payment is required">
+                                <input id="register-contractors-consultants-upload-documents-tax-payment-2" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-tax-payment-preview-2"
+                                       data-required-error="2nd scanned evidence of tax payment is required">
+                                <input id="register-contractors-consultants-upload-documents-tax-payment-3" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-tax-payment-preview-3"
+                                       data-required-error="3rd scanned evidence of tax payment is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label style="display: block">Evidence of Tax Payment Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-tax-payment-preview-1"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen; display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-tax-payment-preview-2"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-tax-payment-preview-3"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-professional-license"><span style="color: red">*</span> Scanned Professional License</label>
+                                <input id="register-contractors-consultants-upload-documents-professional-license" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-professional-license-preview"
+                                       data-required-error="scanned professional license is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Professional License Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-professional-license-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-company-profile"><span style="color: red">*</span> Company Profile / Company CV</label>
+                                <input id="register-contractors-consultants-upload-documents-company-profile" type="file" accept=".pdf" placeholder="Upload Photo" class="form-control"
+                                       required data-pdffilesize="uploaded document must not be larger than 512KB. File type must be .pdf"
+                                       data-preview-block="register-contractors-consultants-upload-documents-company-profile-preview"
+                                       data-required-error="company profile is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Company Profile (PDF)</label>
+                                <div id="register-contractors-consultants-upload-documents-company-profile-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    uploaded document must not be larger than 512KB. File type must be .pdf
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-audited-acct"><span style="color: red">*</span> Scanned Evidence of Audited Account(
+                                    for last 3 years)</label>
+                                <input id="register-contractors-consultants-upload-documents-audited-acct" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-audited-acct-preview-1"
+                                       data-required-error="scanned evidence of audited account is required">
+                                <input id="register-contractors-consultants-upload-documents-audited-acct-2" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-audited-acct-preview-2"
+                                       data-required-error="2nd scanned evidence of audited account is required">
+                                <input id="register-contractors-consultants-upload-documents-audited-acct-3" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-audited-acct-preview-3"
+                                       data-required-error="3rd scanned evidence of audited account is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label style="display: block">Evidence of Audited Account Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-audited-acct-preview-1"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen; display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-audited-acct-preview-2"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-audited-acct-preview-3"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-projects-executed"><span style="color: red">*</span> Scanned Evidence of Project Executed(
+                                    for last 3 years)</label>
+                                <input id="register-contractors-consultants-upload-documents-projects-executed" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-projects-executed-preview-1"
+                                       data-required-error="scanned evidence of project executed is required">
+                                <input id="register-contractors-consultants-upload-documents-projects-executed-2" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-projects-executed-preview-2"
+                                       data-required-error="2nd scanned evidence of project executed is required">
+                                <input id="register-contractors-consultants-upload-documents-projects-executed-3" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-projects-executed-preview-3"
+                                       data-required-error="3rd scanned evidence of project executed is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label style="display: block">Evidence of Project Executed Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-projects-executed-preview-1"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen; display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-projects-executed-preview-2"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-projects-executed-preview-3"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-vat-reg"><span style="color: red">*</span> Scanned Evidence of VAT Registration & Remittance</label>
+                                <input id="register-contractors-consultants-upload-documents-vat-reg" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-vat-reg-preview-1"
+                                       data-required-error="scanned evidence of VAT registration and remittance is required">
+                                <input id="register-contractors-consultants-upload-documents-vat-reg-2" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB (jpg)."
+                                       data-preview-block="register-contractors-consultants-upload-documents-vat-reg-preview-2"
+                                       data-required-error="2nd scanned evidence of VAT registration and remittance is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label style="display: block">Evidence of VAT Registration & Remittance Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-vat-reg-preview-1"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen; display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                                <div id="register-contractors-consultants-upload-documents-vat-reg-preview-2"
+                                     style="width: 100px; height: 100px; border-style: solid; border-width: 1px; border-color: lightgreen;  display: inline-block;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB (jpg).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-tin-reg"><span style="color: red">*</span> Scanned Evidence of TIN Registration</label>
+                                <input id="register-contractors-consultants-upload-documents-tin-reg" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-tin-reg-preview"
+                                       data-required-error="scanned evidence of TIN registration is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Evidence of TIN Registration Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-tin-reg-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-hired-equipment"><span style="color: red">*</span> Scanned Evidence of Owned /
+                                    Hired Relevant Equipment</label>
+                                <input id="register-contractors-consultants-upload-documents-hired-equipment" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-hired-equipment-preview"
+                                       data-required-error="scanned evidence of equipment is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Owned / Hired Equipment Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-hired-equipment-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-sworn-affidavit"><span style="color: red">*</span> Scanned Sworn Affidavit of
+                                Correctness of Registration Documents</label>
+                                <input id="register-contractors-consultants-upload-documents-sworn-affidavit" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       required data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-sworn-affidavit-preview"
+                                       data-required-error="scanned evidence of equipment is required">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Sworn Affidavit Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-sworn-affidavit-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom-width: 1px; border-bottom-style: ridge;
+                        border-bottom-color: lightgray; margin-bottom: 1em;">
+                            <div class="col-sm-6 form-group">
+                                <label for="register-contractors-consultants-upload-documents-joint-venture">Scanned Joint Venture /
+                                    Partnership Agreement</label>
+                                <input id="register-contractors-consultants-upload-documents-joint-venture" type="file" accept=".jpg,.jpge" placeholder="Upload Photo" class="form-control"
+                                       data-imagefilesize="scanned document must not be larger than 512KB. File type must be .jpg"
+                                       data-preview-block="register-contractors-consultants-upload-documents-joint-venture-preview">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Joint Venture / Partnership Preview</label>
+                                <div id="register-contractors-consultants-upload-documents-joint-venture-preview" style="width: 150px; height: 150px; border-style: solid; border-width: 2px; border-color: lightgreen;
+                            background-image: none; background-position: center; background-size: contain; background-repeat: no-repeat">
+                                    scanned document must not be larger than 512KB. File type must be .jpg
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="row">
+                            <div class="col-sm-12 form-group" style="padding-top: 0.5em; text-align: center">
+                                <input id="hidden-company-email-1" type="hidden">
+                                <button type="button" class="btn"
+                                        onclick="moveScreenBackward(document.getElementById('upload-documents-container'),
+            document.getElementById('basic-information-container'))">Previous</button>
+                                <button type="submit" class="btn btn-info">Next</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- upload documents container ends -->
+
+<!-- attestation & payment container begins -->
+<div id="attestation-payment-container" class="container" style="display: none; margin-top: 3em;">
+
+    <div class="row">
+        <div class="well col-xs-12">
+            <div class="row" style="margin-bottom: 1em;">
+                <div class="col-xs-4" style="text-align: center;"></div>
+                <div class="col-xs-4" style="text-align: center;">
+                    <img src="images/ppa-icon.png" style="width: 9em; height: 9em; border-radius: 50%; margin-top: -5em">
+                </div>
+                <div class="col-xs-4" style="text-align: center;"></div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder; cursor: pointer"
+                  onclick="moveScreenBackward(document.getElementById('attestation-payment-container'),
+            document.getElementById('basic-information-container'))">1</span>
+                </div>
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: lightgray; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em; font-weight: bolder; cursor: pointer"
+                  onclick="moveScreenBackward(document.getElementById('attestation-payment-container'),
+            document.getElementById('upload-documents-container'))">2</span>
+                </div>
+
+                <div class="col-xs-4" style="text-align: center;">
+            <span style="height: 3em !important; width: 3em !important; background-color: #4cae4c; color: #f5f5f5;
+            border-radius: 50%; display: inline-block; text-align: center;
+            padding-top: 1em; padding-bottom: 1em; font-size: 1.2em;
+            font-weight: bolder; cursor: pointer">3</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-7"></div>
+                <div class="col-xs-5" style="text-align: center">
+                    <h4>Attestation and Payment</h4>
+                    <span>Please 'agree' to attestation </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 well">
+            <div class="row">
+                <div class="col-xs-12 app-loader" style="display: none; position: fixed; top: 0; bottom: 0; width: 100%; height: 100%;
+                left: 0; text-align: center; z-index: 3; padding-top: 15em;">
+                    <div style="background-color: rgba(0,0,0,0.7); display: block; width: 50%; margin-left: 25%; margin-right: 25%">
+                    <i class="fa fa-cog fa-spin" style="font-size: 10em; color: #ffffff"></i>
+                    <div class="app-loader-message" style="color: #ffffff;"></div>
+                    </div>
+                </div>
+                <form id="attestation-form" autocomplete="off">
+                    <div class="col-sm-12">
+
+                        <div class="row">
+                            <div class="col-sm-12 form-group" style="text-align: center"><h4>Attestation</h4></div>
+                            <div class="col-sm-12">
+                                <ul>
+                                    <li>All information provided for this registration process are electronic copies of valid
+                                    documents.</li>
+                                    <li>Physical copies and originals of the documents provided will be made available whenever they
+                                    are requested by the Edo State Government or any of its parastatals.</li>
+                                    <li>The completion and submission of this registration form and its attached documents was
+                                        performed by individual(s) with the necessary permissions to act on behalf of the company or
+                                    organisations they represent</li>
+                                    <li>Payment of a <span style="font-weight: bold"> non-refundable registration fee</span> must be completed
+                                    before registration application will be processed</li>
+                                    <li>Without prejudice to the requisite registration fee, any registration can be
+                                        rejected/declined without recourse to the registrant</li>
+                                    <li>This attestation can be updated or modified at the disgression of the Edo State Government
+                                    or any of its parastatals</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <input id="register-contractors-consultants-agree-accept" type="checkbox"
+                                       required style="float: left; margin-left: 1em; margin-right: 1em" value="I Agree"
+                                       data-required-error="Please 'tick' the I Agree and Accept box">
+                                I agree to and accept the above attestation
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 form-group" style="padding-top: 0.5em; text-align: center">
+                                <input id="hidden-company-email-2" type="hidden">
+                                <button type="submit" class="btn btn-info">Proceed</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- attestation & payment container ends -->
+
+<!-- submission completed modal -->
+<div id="submission-completed-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thank you</h4>
+            </div>
+            <div class="modal-body">
+                <p>Your registration was successful. <br>An email will be sent to <span id="submission-completed-modal-email"></span>
+                    shortly</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-info" data-dismiss="modal"
+                        onclick="document.location.href='register-contractors-consultants.html';">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- jquery -->
+<script src="js/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="js/bootstrap.min.js"></script>
+<script>
+    // initialise native form validation polyfil
+    hyperform(window);
+</script>
+<!-- validator script -->
+<script src="js/validator.min.js"></script>
+<!-- sweet alert script -->
+<script src="js/sweetalert.min.js"></script>
+<!-- kendo ui library -->
+<script src="js/kendo.ui.core.min.js"></script>
+<script src="js/register-contractors-consultants.js"></script>
+</body>
+</html>
