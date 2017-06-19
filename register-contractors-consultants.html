@@ -9,10 +9,10 @@
         var queryParam = document.location.search;
         queryParam = !queryParam ? "" : queryParam;
         if(queryParam.length == 0){
-            document.location.href = document.location.href + "?timestamp=" + new Date().getTime();
+            document.location.href = document.location.href + "?t=" + new Date().getTime();
         }
-        else if(queryParam.indexOf("timestamp=") < 0){
-            document.location.href = document.location.href + "&timestamp=" + new Date().getTime();
+        else if(queryParam.indexOf("t=") < 0){
+            document.location.href = document.location.href + "&t=" + new Date().getTime();
         }
     </script>
     <!-- Bootstrap -->
