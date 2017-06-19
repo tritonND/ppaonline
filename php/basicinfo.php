@@ -2,9 +2,9 @@
 require_once("dbconnect.php");
 //get parameters sent
 
-session_start();
+//session_start();
 //$emailuser="test@test.com";
-$emailuser=$_SESSION['username'];
+//$emailuser=$_SESSION['username'];
 
 
     $address = mysqli_real_escape_string($con, $_POST['address']);
@@ -22,10 +22,10 @@ $description =  mysqli_real_escape_string($con,$_POST['description']);
 $motto = mysqli_real_escape_string($con,$_POST['motto']);
 
 
-$firstfolder="gallery/G".$phone;
-$eventfolder="gallery/G".$phone."/events";
-$proofsfolder="gallery/G".$phone."/proofs";
-$postsfolder="gallery/G".$phone."/posts";
+$firstfolder="gallery/G".$email;
+$eventfolder="gallery/G".$email."/events";
+$proofsfolder="gallery/G".$email."/proofs";
+$postsfolder="gallery/G".$email."/posts";
 
 
 
